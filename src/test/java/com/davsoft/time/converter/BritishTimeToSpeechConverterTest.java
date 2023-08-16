@@ -1,14 +1,14 @@
 package com.davsoft.time.converter;
 
 import com.davsoft.time.converter.exception.TimeFormatException;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.Map;
 
-import static java.util.Map.*;
-import static org.junit.jupiter.api.Assertions.*;
+import static java.util.Map.entry;
+import static java.util.Map.ofEntries;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class BritishTimeToSpeechConverterTest {
 
