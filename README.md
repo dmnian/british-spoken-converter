@@ -9,3 +9,7 @@ Five oh six is more common, general rules behind that are described below:
 - we tend to use 'to' or 'past' with minutes that are multiples of five ('10 to six', '20 to seven', '25 past eight')
 - instead 15 minutes we say 'quarter to', or 'quarter past'
 - 30 minutes usually are described as 'half past'
+
+# Application
+- British-spoken-converter is console application
+- user interacts using keyboard according to messages in terminal.
