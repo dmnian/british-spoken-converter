@@ -1,5 +1,7 @@
 package com.davsoft.time.converter;
 
+import com.davsoft.time.converter.exception.TimeFormatException;
+
 import static com.davsoft.time.converter.TimeSpeechEnum.*;
 
 public class BritishTimeToSpeechConverter {

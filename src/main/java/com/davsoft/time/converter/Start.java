@@ -1,8 +1,10 @@
 package com.davsoft.time.converter;
 
+import com.davsoft.time.converter.exception.TimeFormatException;
+
 import java.util.Scanner;
 
-public class Main {
+public class Start {
     public static void main(String[] args) {
         System.out.println("Welcome in the British spoken time converter!\n");
 
