@@ -6,6 +6,8 @@ import java.util.Scanner;
 
 public class ConsoleApplication {
     public static void main(String[] args) {
+        TimeToSpeechConverter timeToSpeechConverter = new BritishTimeToSpeechConverter();
+
         System.out.println("Welcome in the British spoken time converter!\n");
 
         try (Scanner sc = new Scanner(System.in)) {
@@ -21,7 +23,7 @@ public class ConsoleApplication {
                     System.out.println("Thank you for using british time converter.");
                 } else {
                     try {
-                        final String convert = BritishTimeToSpeechConverter.getConvertedSpeech(time);
+                        final String convert = timeToSpeechConverter.getConvertedSpeech(time);
                         System.out.println("British spoken time converted: " + convert + "\n");
                     } catch (TimeFormatException e) {
                         System.out.println(e.getMessage());

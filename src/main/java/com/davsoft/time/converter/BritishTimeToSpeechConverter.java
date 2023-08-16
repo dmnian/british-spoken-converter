@@ -2,9 +2,9 @@ package com.davsoft.time.converter;
 
 import com.davsoft.time.converter.exception.TimeFormatException;
 
-import static com.davsoft.time.converter.TimeSpeechEnum.*;
+import static com.davsoft.time.converter.BritishTimeSpeechEnum.*;
 
-public class BritishTimeToSpeechConverter {
+public class BritishTimeToSpeechConverter implements TimeToSpeechConverter {
 
     private final static String[] firstTwentyNumbersInText = {"", "one", "two", "three",
             "four", "five", "six", "seven",
@@ -14,7 +14,7 @@ public class BritishTimeToSpeechConverter {
 
     private final static String[] firstFiveTens = {"", "ten", "twenty", "thirty", "forty", "fifty"};
 
-    public static String getConvertedSpeech(String time) {
+    public String getConvertedSpeech(String time) {
         final int[] hoursAndMinutesArray = parseHoursAndMinutes(time);
 
         final int hourNumber = hoursAndMinutesArray[0];
@@ -25,7 +25,7 @@ public class BritishTimeToSpeechConverter {
         return convert(minutesNumber, hourNumber);
     }
 
-    private static int[] parseHoursAndMinutes(String time) {
+    private int[] parseHoursAndMinutes(String time) {
         final String[] hoursAndMinutesArray = time.split(":");
 
         if (hoursAndMinutesArray.length != 2) {
@@ -45,7 +45,7 @@ public class BritishTimeToSpeechConverter {
         }
     }
 
-    private static void validateMinutesAndHours(int minutesNumber, int hourNumber) {
+    private void validateMinutesAndHours(int minutesNumber, int hourNumber) {
         if (minutesNumber >= 60 || minutesNumber < 0) {
             throw new TimeFormatException("Minutes should be in range between 0 and 59");
         }
@@ -55,7 +55,7 @@ public class BritishTimeToSpeechConverter {
         }
     }
 
-    private static String convert(int minutesNumber, int hourNumber) {
+    private String convert(int minutesNumber, int hourNumber) {
         if (minutesNumber == 0 && hourNumber == 12) {
             return NOON.getValue();
         } else if (minutesNumber == 0 && hourNumber == 0) {
