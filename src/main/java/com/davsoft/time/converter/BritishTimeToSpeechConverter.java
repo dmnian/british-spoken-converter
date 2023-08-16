@@ -12,7 +12,6 @@ public class BritishTimeToSpeechConverter {
 
     private final static String[] firstFiveTens = {"", "ten", "twenty", "thirty", "forty", "fifty"};
 
-
     public static String getConvertedSpeech(String time) {
         final int[] hoursAndMinutesArray = parseHoursAndMinutes(time);
 
@@ -35,8 +34,8 @@ public class BritishTimeToSpeechConverter {
         final String minutes = hoursAndMinutesArray[1];
 
         try {
-            int hourNumber = Integer.parseInt(hour);
-            int minutesNumber = Integer.parseInt(minutes);
+            final int hourNumber = Integer.parseInt(hour);
+            final int minutesNumber = Integer.parseInt(minutes);
 
             return new int[]{hourNumber, minutesNumber};
         } catch (NumberFormatException e) {
@@ -60,7 +59,7 @@ public class BritishTimeToSpeechConverter {
         } else if (minutesNumber == 0 && hourNumber == 0) {
             return MIDNIGHT.getValue();
         } else if (minutesNumber == 0) {
-            return firstTwentyNumbersInText[hourNumber] + " o'clock";
+            return firstTwentyNumbersInText[hourNumber] + OCLOCK.getValue();
         }
 
         final var sb = new StringBuilder();
@@ -78,7 +77,7 @@ public class BritishTimeToSpeechConverter {
                     sb.append(firstTwentyNumbersInText[minutesTo]);
                 }
 
-                sb.append(" to " + firstTwentyNumbersInText[hourTo]);
+                sb.append(TO.getValue() + firstTwentyNumbersInText[hourTo]);
             } else {
                 if (minutesNumber == 15) {
                     sb.append(QUARTER.getValue());
@@ -89,13 +88,13 @@ public class BritishTimeToSpeechConverter {
                 } else {
                     sb.append(firstTwentyNumbersInText[minutesNumber]);
                 }
-                sb.append(" past " + firstTwentyNumbersInText[hourNumber]);
+                sb.append(PAST.getValue() + firstTwentyNumbersInText[hourNumber]);
             }
         } else {
             sb.append(firstTwentyNumbersInText[hourNumber]);
 
             if (minutesNumber < 10) {
-                sb.append(" oh " + firstTwentyNumbersInText[minutesNumber]);
+                sb.append(OH.getValue() + firstTwentyNumbersInText[minutesNumber]);
             } else if (minutesNumber > 20) {
                 sb.append(" " + firstFiveTens[minutesNumber / 10] + " " + firstTwentyNumbersInText[minutesNumber % 10]);
             } else {
