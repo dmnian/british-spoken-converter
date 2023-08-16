@@ -1,11 +1,8 @@
 package com.davsoft.time.converter;
 
-public class BritishTimeToSpeechConverter {
+import static com.davsoft.time.converter.TimeSpeechEnum.*;
 
-    private static final String HALF = "half";
-    private static final String QUARTER = "quarter";
-    private static final String NOON = "noon";
-    private static final String MIDNIGHT = "midnight";
+public class BritishTimeToSpeechConverter {
 
     private final static String[] firstTwentyNumbersInText = {"", "one", "two", "three",
             "four", "five", "six", "seven",
@@ -42,7 +39,7 @@ public class BritishTimeToSpeechConverter {
             int minutesNumber = Integer.parseInt(minutes);
 
             return new int[]{hourNumber, minutesNumber};
-        } catch (NumberFormatException e){
+        } catch (NumberFormatException e) {
             throw new TimeFormatException("Incorrect time format, hours and minutes should be a number");
         }
     }
@@ -59,9 +56,9 @@ public class BritishTimeToSpeechConverter {
 
     private static String convert(int minutesNumber, int hourNumber) {
         if (minutesNumber == 0 && hourNumber == 12) {
-            return NOON;
+            return NOON.getValue();
         } else if (minutesNumber == 0 && hourNumber == 0) {
-            return MIDNIGHT;
+            return MIDNIGHT.getValue();
         } else if (minutesNumber == 0) {
             return firstTwentyNumbersInText[hourNumber] + " o'clock";
         }
@@ -74,7 +71,7 @@ public class BritishTimeToSpeechConverter {
                 final int hourTo = hourNumber + 1;
 
                 if (minutesTo == 15) {
-                    sb.append(QUARTER);
+                    sb.append(QUARTER.getValue());
                 } else if (minutesTo > 20) {
                     sb.append(firstTwentyNumbersInText[minutesTo / 10] + " " + firstTwentyNumbersInText[minutesTo % 10]);
                 } else {
@@ -84,9 +81,9 @@ public class BritishTimeToSpeechConverter {
                 sb.append(" to " + firstTwentyNumbersInText[hourTo]);
             } else {
                 if (minutesNumber == 15) {
-                    sb.append(QUARTER);
+                    sb.append(QUARTER.getValue());
                 } else if (minutesNumber == 30) {
-                    sb.append(HALF);
+                    sb.append(HALF.getValue());
                 } else if (minutesNumber > 20) {
                     sb.append(firstFiveTens[minutesNumber / 10] + " " + firstTwentyNumbersInText[minutesNumber % 10]);
                 } else {
