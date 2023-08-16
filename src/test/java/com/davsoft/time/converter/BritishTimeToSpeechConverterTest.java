@@ -37,4 +37,46 @@ class BritishTimeToSpeechConverterTest {
                 )
         );
     }
+
+    @Test
+    void whenInputNotNumberShouldThrowSpecificException() {
+        //given
+        final var input = "incorrect:input";
+
+        //when
+        final var exception = assertThrows(TimeFormatException.class, () -> {
+            BritishTimeToSpeechConverter.getConvertedSpeech(input);
+        });
+
+        //then
+        assertEquals("Incorrect time format, hours and minutes should be a number", exception.getMessage());
+    }
+
+    @Test
+    void whenInputIncorrectNumberShouldThrowSpecificException() {
+        //given
+        final var input = "23:11";
+
+        //when
+        final var exception = assertThrows(TimeFormatException.class, () -> {
+            BritishTimeToSpeechConverter.getConvertedSpeech(input);
+        });
+
+        //then
+        assertEquals("Hours should be in range between 0 and 12", exception.getMessage());
+    }
+
+    @Test
+    void whenInputIncorrectMinuteNumberShouldThrowException() {
+        //given
+        final var input = "11:67";
+
+        //when
+        final var exception = assertThrows(TimeFormatException.class, () -> {
+            BritishTimeToSpeechConverter.getConvertedSpeech(input);
+        });
+
+        //then
+        assertEquals("Minutes should be in range between 0 and 59", exception.getMessage());
+    }
 }

@@ -31,13 +31,20 @@ public class BritishTimeToSpeechConverter {
         final String[] hoursAndMinutesArray = time.split(":");
 
         if (hoursAndMinutesArray.length != 2) {
-            throw new TimeFormatException("Wrong time format!");
+            throw new TimeFormatException("Incorrect time format!");
         }
 
         final String hour = hoursAndMinutesArray[0];
         final String minutes = hoursAndMinutesArray[1];
 
-        return new int[]{Integer.parseInt(hour), Integer.parseInt(minutes)};
+        try {
+            int hourNumber = Integer.parseInt(hour);
+            int minutesNumber = Integer.parseInt(minutes);
+
+            return new int[]{hourNumber, minutesNumber};
+        } catch (NumberFormatException e){
+            throw new TimeFormatException("Incorrect time format, hours and minutes should be a number");
+        }
     }
 
     private static void validateMinutesAndHours(int minutesNumber, int hourNumber) {
@@ -46,7 +53,7 @@ public class BritishTimeToSpeechConverter {
         }
 
         if (hourNumber > 12 || hourNumber < 0) {
-            throw new TimeFormatException("hours should be in range between 0 and 12");
+            throw new TimeFormatException("Hours should be in range between 0 and 12");
         }
     }
 
