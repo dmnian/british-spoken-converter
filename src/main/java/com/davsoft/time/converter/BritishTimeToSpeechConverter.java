@@ -1,8 +1,9 @@
 package com.davsoft.time.converter;
 
+import com.davsoft.time.converter.domain.Time;
 import com.davsoft.time.converter.exception.TimeFormatException;
 
-import static com.davsoft.time.converter.BritishTimeSpeechEnum.*;
+import static com.davsoft.time.converter.domain.BritishTimeSpeechEnum.*;
 
 public class BritishTimeToSpeechConverter implements TimeToSpeechConverter {
 
@@ -14,35 +15,14 @@ public class BritishTimeToSpeechConverter implements TimeToSpeechConverter {
 
     private final static String[] firstFiveTens = {"", "ten", "twenty", "thirty", "forty", "fifty"};
 
-    public String getConvertedSpeech(String time) {
-        final int[] hoursAndMinutesArray = parseHoursAndMinutes(time);
+    public String getConvertedSpeech(int minutes, int hours) {
+        validateMinutesAndHours(minutes, hours);
 
-        final int hourNumber = hoursAndMinutesArray[0];
-        final int minutesNumber = hoursAndMinutesArray[1];
-
-        validateMinutesAndHours(minutesNumber, hourNumber);
-
-        return convert(minutesNumber, hourNumber);
+        return convert(minutes, hours);
     }
 
-    private int[] parseHoursAndMinutes(String time) {
-        final String[] hoursAndMinutesArray = time.split(":");
-
-        if (hoursAndMinutesArray.length != 2) {
-            throw new TimeFormatException("Incorrect time format!");
-        }
-
-        final String hour = hoursAndMinutesArray[0];
-        final String minutes = hoursAndMinutesArray[1];
-
-        try {
-            final int hourNumber = Integer.parseInt(hour);
-            final int minutesNumber = Integer.parseInt(minutes);
-
-            return new int[]{hourNumber, minutesNumber};
-        } catch (NumberFormatException e) {
-            throw new TimeFormatException("Incorrect time format, hours and minutes should be a number");
-        }
+    public String getConvertedSpeech(Time time) {
+        return getConvertedSpeech(time.getMinutes(), time.getHours());
     }
 
     private void validateMinutesAndHours(int minutesNumber, int hourNumber) {

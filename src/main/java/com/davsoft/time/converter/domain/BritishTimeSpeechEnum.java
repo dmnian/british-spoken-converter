@@ -1,4 +1,4 @@
-package com.davsoft.time.converter;
+package com.davsoft.time.converter.domain;
 
 public enum BritishTimeSpeechEnum {
     HALF("half"), QUARTER("quarter"), NOON("noon"), MIDNIGHT("midnight"),

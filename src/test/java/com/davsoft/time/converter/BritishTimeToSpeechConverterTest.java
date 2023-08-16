@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.Map;
 
+import static com.davsoft.time.converter.domain.Time.*;
 import static java.util.Map.entry;
 import static java.util.Map.ofEntries;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -39,7 +40,7 @@ class BritishTimeToSpeechConverterTest {
     void testBritishSpokenTimeConversion() {
         mapOfInputsAndExpectedOutputs.forEach(
                 (input, expectedOutput) -> assertEquals(
-                        expectedOutput, converter.getConvertedSpeech(input)
+                        expectedOutput, converter.getConvertedSpeech(buildTimeFromText(input))
                 )
         );
     }
@@ -50,7 +51,7 @@ class BritishTimeToSpeechConverterTest {
         final var input = "incorrect:input";
 
         //when
-        final var exception = assertThrows(TimeFormatException.class, () -> converter.getConvertedSpeech(input));
+        final var exception = assertThrows(TimeFormatException.class, () -> converter.getConvertedSpeech(buildTimeFromText(input)));
 
         //then
         assertEquals("Incorrect time format, hours and minutes should be a number", exception.getMessage());
@@ -62,7 +63,7 @@ class BritishTimeToSpeechConverterTest {
         final var input = "23:11";
 
         //when
-        final var exception = assertThrows(TimeFormatException.class, () -> converter.getConvertedSpeech(input));
+        final var exception = assertThrows(TimeFormatException.class, () -> converter.getConvertedSpeech(buildTimeFromText(input)));
 
         //then
         assertEquals("Hours should be in range between 0 and 12", exception.getMessage());
@@ -74,7 +75,7 @@ class BritishTimeToSpeechConverterTest {
         final var input = "11:67";
 
         //when
-        final var exception = assertThrows(TimeFormatException.class, () -> converter.getConvertedSpeech(input));
+        final var exception = assertThrows(TimeFormatException.class, () -> converter.getConvertedSpeech(buildTimeFromText(input)));
 
         //then
         assertEquals("Minutes should be in range between 0 and 59", exception.getMessage());
