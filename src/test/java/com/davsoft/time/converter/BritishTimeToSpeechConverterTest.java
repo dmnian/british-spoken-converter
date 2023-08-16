@@ -1,6 +1,8 @@
 package com.davsoft.time.converter;
 
 import com.davsoft.time.converter.exception.TimeFormatException;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.Map;
@@ -10,7 +12,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class BritishTimeToSpeechConverterTest {
 
-    final Map<String, String> mapOfInputsAndExpectedOutputs = ofEntries(
+    private final Map<String, String> mapOfInputsAndExpectedOutputs = ofEntries(
             entry("1:00", "one o'clock"),
             entry("1:07", "one oh seven"),
             entry("1:17", "one seventeen"),
@@ -30,11 +32,14 @@ class BritishTimeToSpeechConverterTest {
             entry("12:00", "noon")
     );
 
+    private final TimeToSpeechConverter converter = new BritishTimeToSpeechConverter();
+
+
     @Test
     void testBritishSpokenTimeConversion() {
         mapOfInputsAndExpectedOutputs.forEach(
                 (input, expectedOutput) -> assertEquals(
-                        expectedOutput, BritishTimeToSpeechConverter.getConvertedSpeech(input)
+                        expectedOutput, converter.getConvertedSpeech(input)
                 )
         );
     }
@@ -45,7 +50,7 @@ class BritishTimeToSpeechConverterTest {
         final var input = "incorrect:input";
 
         //when
-        final var exception = assertThrows(TimeFormatException.class, () -> BritishTimeToSpeechConverter.getConvertedSpeech(input));
+        final var exception = assertThrows(TimeFormatException.class, () -> converter.getConvertedSpeech(input));
 
         //then
         assertEquals("Incorrect time format, hours and minutes should be a number", exception.getMessage());
@@ -57,7 +62,7 @@ class BritishTimeToSpeechConverterTest {
         final var input = "23:11";
 
         //when
-        final var exception = assertThrows(TimeFormatException.class, () -> BritishTimeToSpeechConverter.getConvertedSpeech(input));
+        final var exception = assertThrows(TimeFormatException.class, () -> converter.getConvertedSpeech(input));
 
         //then
         assertEquals("Hours should be in range between 0 and 12", exception.getMessage());
@@ -69,7 +74,7 @@ class BritishTimeToSpeechConverterTest {
         final var input = "11:67";
 
         //when
-        final var exception = assertThrows(TimeFormatException.class, () -> BritishTimeToSpeechConverter.getConvertedSpeech(input));
+        final var exception = assertThrows(TimeFormatException.class, () -> converter.getConvertedSpeech(input));
 
         //then
         assertEquals("Minutes should be in range between 0 and 59", exception.getMessage());
