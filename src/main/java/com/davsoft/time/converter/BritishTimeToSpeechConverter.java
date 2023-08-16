@@ -16,38 +16,55 @@ public class BritishTimeToSpeechConverter {
     private final static String[] firstFiveTens = {"", "ten", "twenty", "thirty", "forty", "fifty"};
 
 
-    public static String convert(String time) {
-        if (time.equals("12:00")) {
-            return NOON;
-        } else if (time.equals("00:00")) {
-            return MIDNIGHT;
-        }
+    public static String getConvertedSpeech(String time) {
+        final int[] hoursAndMinutesArray = parseHoursAndMinutes(time);
 
-        StringBuilder sb = new StringBuilder();
-
-        String[] hoursAndMinutesArray = time.split(":");
-
-        if(hoursAndMinutesArray.length != 2){
-            throw new TimeFormatException("Wrong time format!");
-        }
-
-        String hour = hoursAndMinutesArray[0];
-        String minutes = hoursAndMinutesArray[1];
-
-        int minutesNumber = Integer.parseInt(minutes);
-        int hourNumber = Integer.parseInt(hour);
+        final int hourNumber = hoursAndMinutesArray[0];
+        final int minutesNumber = hoursAndMinutesArray[1];
 
         validateMinutesAndHours(minutesNumber, hourNumber);
 
-        if (minutesNumber == 0) {
+        return convert(minutesNumber, hourNumber);
+    }
+
+    private static int[] parseHoursAndMinutes(String time) {
+        final String[] hoursAndMinutesArray = time.split(":");
+
+        if (hoursAndMinutesArray.length != 2) {
+            throw new TimeFormatException("Wrong time format!");
+        }
+
+        final String hour = hoursAndMinutesArray[0];
+        final String minutes = hoursAndMinutesArray[1];
+
+        return new int[]{Integer.parseInt(hour), Integer.parseInt(minutes)};
+    }
+
+    private static void validateMinutesAndHours(int minutesNumber, int hourNumber) {
+        if (minutesNumber >= 60 || minutesNumber < 0) {
+            throw new TimeFormatException("Minutes should be in range between 0 and 59");
+        }
+
+        if (hourNumber > 12 || hourNumber < 0) {
+            throw new TimeFormatException("hours should be in range between 0 and 12");
+        }
+    }
+
+    private static String convert(int minutesNumber, int hourNumber) {
+        if (minutesNumber == 0 && hourNumber == 12) {
+            return NOON;
+        } else if (minutesNumber == 0 && hourNumber == 0) {
+            return MIDNIGHT;
+        } else if (minutesNumber == 0) {
             return firstTwentyNumbersInText[hourNumber] + " o'clock";
         }
 
-        if (minutesNumber % 5 == 0) {
+        final var sb = new StringBuilder();
 
+        if (minutesNumber % 5 == 0) {
             if (minutesNumber > 30) {
-                int minutesTo = 60 - minutesNumber;
-                int hourTo = hourNumber + 1;
+                final int minutesTo = 60 - minutesNumber;
+                final int hourTo = hourNumber + 1;
 
                 if (minutesTo == 15) {
                     sb.append(QUARTER);
@@ -58,7 +75,6 @@ public class BritishTimeToSpeechConverter {
                 }
 
                 sb.append(" to " + firstTwentyNumbersInText[hourTo]);
-
             } else {
                 if (minutesNumber == 15) {
                     sb.append(QUARTER);
@@ -83,17 +99,6 @@ public class BritishTimeToSpeechConverter {
             }
         }
 
-
         return sb.toString();
-    }
-
-    private static void validateMinutesAndHours(int minutesNumber, int hourNumber) {
-        if (minutesNumber >= 60 || minutesNumber < 0) {
-            throw new TimeFormatException("Minutes should be in range between 0 and 59");
-        }
-
-        if (hourNumber > 12 || hourNumber < 0) {
-            throw new TimeFormatException("hours should be in range between 0 and 12");
-        }
     }
 }

@@ -12,14 +12,14 @@ public class Main {
                 System.out.println("please type time in 12 hour format eg. 11:20 or 4:05, " +
                         "\n If you want to quit then just type 'exit' instead of time.");
 
-                String time = sc.next();
+                final String time = sc.next();
 
                 if (time.equals("exit")) {
                     finished = true;
                     System.out.println("Thank you for using british time converter.");
                 } else {
                     try {
-                        String convert = BritishTimeToSpeechConverter.convert(time);
+                        final String convert = BritishTimeToSpeechConverter.getConvertedSpeech(time);
                         System.out.println("British spoken time converted: " + convert + "\n");
                     } catch (TimeFormatException e) {
                         System.out.println(e.getMessage());

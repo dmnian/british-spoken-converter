@@ -31,6 +31,10 @@ class BritishTimeToSpeechConverterTest {
 
     @Test
     void testBritishSpokenTimeConversion() {
-        mapOfInputsAndExpectedOutputs.forEach((input, expectedOutput) -> assertEquals(expectedOutput, BritishTimeToSpeechConverter.convert(input)));
+        mapOfInputsAndExpectedOutputs.forEach(
+                (input, expectedOutput) -> assertEquals(
+                        expectedOutput, BritishTimeToSpeechConverter.getConvertedSpeech(input)
+                )
+        );
     }
 }
